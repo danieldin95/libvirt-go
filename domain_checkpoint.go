@@ -168,9 +168,9 @@ func (d *DomainCheckpoint) ListAllChildren(flags DomainCheckpointListFlags) ([]D
 		return []DomainCheckpoint{}, makeNotImplementedError("virDomainCheckpointListAllChildren")
 	}
 
-	var cList *C.virDomainCheckpointPtr
+	var cList **C.virDomainCheckpoint
 	var err C.virError
-	numVols := C.virDomainCheckpointListAllChildrenWrapper(d.ptr, (**C.virDomainCheckpointPtr)(&cList), C.uint(flags), &err)
+	numVols := C.virDomainCheckpointListAllChildrenWrapper(d.ptr, (***C.virDomainCheckpoint)(&cList), C.uint(flags), &err)
 	if numVols == -1 {
 		return nil, makeError(&err)
 	}

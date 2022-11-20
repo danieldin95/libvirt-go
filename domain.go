@@ -2166,9 +2166,9 @@ func (d *Domain) ListAllCheckpoints(flags DomainCheckpointListFlags) ([]DomainCh
 		return []DomainCheckpoint{}, makeNotImplementedError("virDomainListAllCheckpoints")
 	}
 
-	var cList *C.virDomainCheckpointPtr
+	var cList **C.virDomainCheckpoint
 	var err C.virError
-	numCps := C.virDomainListAllCheckpointsWrapper(d.ptr, (**C.virDomainCheckpointPtr)(&cList), C.uint(flags), &err)
+	numCps := C.virDomainListAllCheckpointsWrapper(d.ptr, (***C.virDomainCheckpoint)(&cList), C.uint(flags), &err)
 	if numCps == -1 {
 		return nil, makeError(&err)
 	}
